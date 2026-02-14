@@ -1,0 +1,5 @@
+{
+  "name": "MedisSync Multi-Hospital ERP",
+  "description": "A comprehensive multi-tenant hospital management system for orchestrating operational, clinical, and financial workflows across multiple medical facilities.",
+  "requestFramePermissions": []
+}
