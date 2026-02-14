@@ -1,18 +1,23 @@
 
 import React, { useState } from 'react';
-import { Hospital, User, ViewType, Encounter } from './types';
-import { HOSPITALS, INITIAL_ENCOUNTERS } from './constants';
+import { Hospital, User, ViewType, Encounter, Claim, ClaimStatus, Appointment, Patient } from './types';
+import { HOSPITALS, INITIAL_ENCOUNTERS, MOCK_PATIENTS } from './constants';
 import Layout from './components/Layout';
 import DashboardView from './components/DashboardView';
 import RegistrationView from './components/RegistrationView';
 import ClinicalView from './components/ClinicalView';
+import ClaimsView from './components/ClaimsView';
+import BookingView from './components/BookingView';
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<ViewType>('Dashboard');
   const [activeHospital, setActiveHospital] = useState<Hospital>(HOSPITALS[0]);
+  const [patients, setPatients] = useState<Patient[]>(MOCK_PATIENTS);
   const [encounters, setEncounters] = useState<Encounter[]>(INITIAL_ENCOUNTERS);
+  const [claims, setClaims] = useState<Claim[]>([]);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-  // Simulated current user - In a real app, this would come from auth context
+  // Simulated current user
   const [currentUser] = useState<User>({
     id: 'u1',
     name: 'Admin MedisSync',
@@ -27,6 +32,22 @@ const App: React.FC = () => {
     setEncounters(prev => prev.map(e => e.id === updatedEncounter.id ? updatedEncounter : e));
   };
 
+  const handleAddPatient = (newPatient: Patient) => {
+    setPatients(prev => [newPatient, ...prev]);
+  };
+
+  const handleAddClaim = (claim: Claim) => {
+    setClaims(prev => [claim, ...prev]);
+  };
+
+  const handleUpdateClaimStatus = (claimId: string, status: ClaimStatus) => {
+    setClaims(prev => prev.map(c => c.id === claimId ? { ...c, status } : c));
+  };
+
+  const handleAddAppointment = (app: Appointment) => {
+    setAppointments(prev => [app, ...prev]);
+  };
+
   const renderView = () => {
     switch (activeView) {
       case 'Dashboard':
@@ -35,8 +56,17 @@ const App: React.FC = () => {
         return (
           <RegistrationView 
             hospital={activeHospital} 
+            patients={patients}
             encounters={encounters} 
-            onAddEncounter={handleAddEncounter} 
+            onAddEncounter={handleAddEncounter}
+            onAddPatient={handleAddPatient}
+          />
+        );
+      case 'Booking':
+        return (
+          <BookingView 
+            onAddAppointment={handleAddAppointment}
+            appointments={appointments}
           />
         );
       case 'Clinical':
@@ -44,6 +74,15 @@ const App: React.FC = () => {
           <ClinicalView 
             encounters={encounters.filter(e => e.hospitalId === activeHospital.id)} 
             onUpdateEncounter={handleUpdateEncounter}
+          />
+        );
+      case 'Claims':
+        return (
+          <ClaimsView 
+            encounters={encounters}
+            claims={claims}
+            onAddClaim={handleAddClaim}
+            onUpdateClaimStatus={handleUpdateClaimStatus}
           />
         );
       default:

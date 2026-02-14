@@ -23,9 +23,11 @@ const Layout: React.FC<LayoutProps> = ({
   const menuItems: { id: ViewType; label: string; icon: string }[] = [
     { id: 'Dashboard', label: 'Dashboard KPI', icon: '📊' },
     { id: 'Registration', label: 'Registration', icon: '📝' },
+    { id: 'Booking', label: 'Online Booking', icon: '📅' },
     { id: 'Clinical', label: 'Clinical EMR', icon: '🩺' },
     { id: 'Pharmacy', label: 'Pharmacy', icon: '💊' },
     { id: 'Billing', label: 'Billing/Cashier', icon: '💳' },
+    { id: 'Claims', label: 'Insurance Claims', icon: '📑' },
     { id: 'Master', label: 'Master Data', icon: '⚙️' },
   ];
 
@@ -61,7 +63,7 @@ const Layout: React.FC<LayoutProps> = ({
               const h = HOSPITALS.find(hos => hos.id === e.target.value);
               if (h) setActiveHospital(h);
             }}
-            className="w-full bg-indigo-800 text-white border-none rounded-md px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+            className="w-full bg-indigo-800 text-white border-none rounded-md px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer"
           >
             {HOSPITALS.map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
           </select>
