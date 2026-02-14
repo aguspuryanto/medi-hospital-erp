@@ -126,7 +126,7 @@ const RegistrationView: React.FC<RegistrationViewProps> = ({ hospital, patients,
             </div>
             <div className="mb-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
               <p className="text-sm font-bold text-slate-700">{selectedPatient.name}</p>
-              <p className="text-xs text-slate-500">{selectedPatient.dob} ({selectedPatient.gender})</p>
+              <p className="text-xs text-slate-500">{selectedPatient.dob} ({selectedPatient.gender === 'M' ? 'Pria' : 'Wanita'})</p>
             </div>
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
@@ -240,6 +240,31 @@ const RegistrationView: React.FC<RegistrationViewProps> = ({ hospital, patients,
                     value={newPatient.nik}
                     onChange={e => setNewPatient({...newPatient, nik: e.target.value})}
                   />
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Jenis Kelamin *</label>
+                  <div className="flex space-x-4 h-[42px] items-center">
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        className="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500"
+                        name="gender"
+                        checked={newPatient.gender === 'M'}
+                        onChange={() => setNewPatient({...newPatient, gender: 'M'})}
+                      />
+                      <span className="text-sm text-slate-700">Pria</span>
+                    </label>
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        className="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500"
+                        name="gender"
+                        checked={newPatient.gender === 'F'}
+                        onChange={() => setNewPatient({...newPatient, gender: 'F'})}
+                      />
+                      <span className="text-sm text-slate-700">Wanita</span>
+                    </label>
+                  </div>
                 </div>
                 <div>
                   <label className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Tanggal Lahir *</label>
